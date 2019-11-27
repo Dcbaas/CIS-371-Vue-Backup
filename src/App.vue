@@ -38,20 +38,21 @@
     </v-app-bar>
 
     <v-content>
-      <Dashboard />
+      <Viewer />
     </v-content>
   </v-app>
 </template>
 
 <script>
 // import Login from './components/Login';
-import Dashboard from './components/Dashboard'
+// import Dashboard from './components/Dashboard'
+import Viewer from './components/Viewer';
 import { AppAuth } from './firebase-init';
 
 export default {
   name: 'App',
   components: {
-    Dashboard,
+    Viewer,
   },
 
   data: () => ({
