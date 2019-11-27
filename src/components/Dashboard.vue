@@ -3,16 +3,24 @@
     <v-container>
       <v-list>
         <v-subheader>MY DOCUMENTS</v-subheader>
-        <v-list-item>
-          <v-list-item-title>Place 1</v-list-item-title>
+        <v-list-item v-for="(document, pos) in myDocsList" :key="pos" >
+          <v-list-item-title>{{  document.docName }}</v-list-item-title>
+            <v-btn class="editBtn" tile outlined color="success">
+              View  
+            </v-btn>
         </v-list-item>
+      </v-list>
+    </v-container>
+    <v-container>
+      <v-list>
+        <v-subheader>SHARED WITH ME</v-subheader>
       </v-list>
     </v-container>
   </div>
 </template>
 
 <script>
-import { AppDB } from '../firebase-init';
+import { AppAuth, AppDB } from '../firebase-init';
 export default {
   data() {
     return {
@@ -22,11 +30,9 @@ export default {
     }
   },
   mounted() {
-    // TODO integrate with authentication 
-    // AppAuth.onAuthStateChanged((user) => {
-    //   this.userInfo = user;
-    // });
-    this.userInfo = {email: 'blah', uid: 'NzVSdyaGmUVEy2ZlpgqvJjkiENB2'};
+    AppAuth.onAuthStateChanged((user) => {
+      this.userInfo = user;
+    });
 
     AppDB.collection('documents').onSnapshot((querySnapshot) => {
       querySnapshot.forEach((doc) =>{
@@ -39,5 +45,10 @@ export default {
       });
     });
   },
+  methods: {
+    handleClick() {
+      alert('Clicked the button');
+    }
+  }
 }
 </script>
