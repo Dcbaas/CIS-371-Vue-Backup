@@ -17,6 +17,7 @@
 <script>
 import { AppAuth } from '../firebase-init';
 export default {
+  name: 'Login',
   data() {
     return {
       email: '',
