@@ -1,6 +1,6 @@
-import Login from '@components/Login'
-import Dashboard from '@components/Dashboard'
-import Viewer from '@components/Viewer';
+import Login from './components/Login.vue'
+import Dashboard from './components/Dashboard.vue'
+// import Viewer from '@components/Viewer';
 import Vue from 'vue'
 import VueRouter from 'vue-router';
 

@@ -41,8 +41,8 @@ export default {
     },
     handleSignIn() {
       AppAuth.signInWithEmailAndPassword(this.email, this.password)
-        .then(user => {
-          alert(`Logged in as ${user.user.email}`);
+        .then(() => {
+          this.$router.push({ path: '/dashboard' });
         })
         .catch(err => {
           alert(`Error ${err}`);
