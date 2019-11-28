@@ -27,32 +27,23 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <v-btn v-show="loginInfo !== null" @click="handleSignOut">
+        <span class="mr-2">Sign Out</span>
       </v-btn>
     </v-app-bar>
 
     <v-content>
-      <Viewer />
+      <router-view />
     </v-content>
   </v-app>
 </template>
 
 <script>
-// import Login from './components/Login';
-// import Dashboard from './components/Dashboard'
-import Viewer from './components/Viewer';
 import { AppAuth } from './firebase-init';
 
 export default {
   name: 'App',
   components: {
-    Viewer,
   },
 
   data: () => ({
@@ -66,8 +57,9 @@ export default {
   methods: {
     handleSignOut() {
       AppAuth.signOut().then(() => {
-        alert('Signed out')
-      })
+        alert('Signed out');
+        this.$router.back();
+      });
     }
   }
 };
