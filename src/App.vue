@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import { AppAuth } from './firebase-init';
+import { AppAuth, AppDB } from './firebase-init';
 
 export default {
   name: 'App',
@@ -117,8 +117,18 @@ export default {
       });
     },
     createNewDocument() {
-      alert('placeholder for new doc');
-
+      AppDB.collection('documents').doc().set({
+        docName: this.newDocTitle,
+        owner: this.loginInfo.uid,
+        sharedWith: [],
+        body: ''
+      })
+      .then(() => {
+        alert('Document created');
+      })
+      .catch(() => {
+        alert('Failed to create new Document');
+      });
       // Cleanup 
       this.dialog = false
       this.newDocTitle = '';
