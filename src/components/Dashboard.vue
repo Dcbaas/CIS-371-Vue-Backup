@@ -22,6 +22,7 @@
 <script>
 import { AppAuth, AppDB } from '../firebase-init';
 export default {
+  name: 'Dashboard',
   data() {
     return {
       myDocsList: [],
