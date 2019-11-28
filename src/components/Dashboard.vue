@@ -40,6 +40,7 @@ export default {
     });
 
     AppDB.collection('documents').onSnapshot((querySnapshot) => {
+      this.myDocsList = []
       querySnapshot.forEach((doc) =>{
         const data = doc.data();
         if (data.owner == this.userInfo.uid){
@@ -47,6 +48,15 @@ export default {
         } else if (data.sharedWith.includes(this.userInfo.uid)) {
           this.sharedDocsList.push({...data, id: doc.id});
         }
+      });
+      this.myDocsList = this.myDocsList.sort((o1, o2) => {
+        if (o1.docName < o2.docName){
+          return -1;
+        } else if (o1.docName > o2.docName){
+          return 1;
+        }
+
+        return 0;
       });
     });
   },
