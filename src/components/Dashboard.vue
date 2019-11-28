@@ -5,7 +5,11 @@
         <v-subheader>MY DOCUMENTS</v-subheader>
         <v-list-item v-for="(document, pos) in myDocsList" :key="pos" >
           <v-list-item-title>{{  document.docName }}</v-list-item-title>
-            <v-btn class="editBtn" tile outlined color="success">
+            <v-btn 
+              class="editBtn" 
+              tile outlined color="success"
+              @click="handleClick(document.id)"
+            >
               View  
             </v-btn>
         </v-list-item>
@@ -47,8 +51,8 @@ export default {
     });
   },
   methods: {
-    handleClick() {
-      alert('Clicked the button');
+    handleClick(docId) {
+      this.$router.push({name: 'view', params: { id: docId } });
     }
   }
 }
