@@ -30,6 +30,32 @@
         </v-menu>
       </v-container>
 
+      <v-container class="viewerBar" v-show="$route.name === 'view'">
+        <v-btn color="secondary">
+          <span class="mr-2">Edit Document</span>
+        </v-btn>
+        <v-btn color="secondary">
+          <span class="mr-2">Delete Document</span>
+        </v-btn>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn color="secondary" dark v-on="on">
+              Account
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>
+                Settings
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>Sign Out</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-container>
+
       <v-btn v-show="loginInfo !== null" @click="handleSignOut">
         <span class="mr-2">Sign Out (Functional Placeholder)</span>
       </v-btn>

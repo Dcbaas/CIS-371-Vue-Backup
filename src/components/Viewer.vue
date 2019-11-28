@@ -1,21 +1,25 @@
 <template>
-  <p>This is the viewer page</p>
+  <p >{{ returnedObject.body }}</p>
 </template>
 
 <script>
-import { AppStorage } from '../firebase-init';
+import { AppDB } from '../firebase-init';
 export default {
+  name: 'Viewer',
+
   data() {
-    return {
-      // TODO make this extracted from route. 
-      documentId: 'test-text1.txt',
+    return { 
+      documentId: this.$route.params.id,
       returnedObject: null
     }
   },
   mounted() {
-    AppStorage.ref(this.documentId).getDownloadURL()
-      .then((a) => {
-        this.returnedObject = a;
+    AppDB.collection('documents').doc(this.documentId).get()
+      .then((doc) => {
+        this.returnedObject = doc.data();
+      })
+      .catch(() => {
+        alert('There was a problem retriving the file.');
       });
   }
 }
