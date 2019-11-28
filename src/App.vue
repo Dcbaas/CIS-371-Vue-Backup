@@ -36,9 +36,9 @@
           </v-list>
         </v-menu>
       </v-container>
-      <!-- <v-btn v-show="loginInfo !== null" @click="handleSignOut">
-        <span class="mr-2">Sign Out</span>
-      </v-btn> -->
+      <v-btn v-show="loginInfo !== null" @click="handleSignOut">
+        <span class="mr-2">Sign Out (Functional Placeholder)</span>
+      </v-btn>
     </v-app-bar>
 
     <v-content>
