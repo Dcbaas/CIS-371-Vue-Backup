@@ -6,30 +6,39 @@
       dark
     >
       <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+        <h1>Blanks</h1>
       </div>
 
       <v-spacer></v-spacer>
-
-      <v-btn v-show="loginInfo !== null" @click="handleSignOut">
+      <v-container class="dashboardBar">
+        <v-btn color="secondary">
+          <span class="mr-2">Create Document</span>
+        </v-btn>
+        <v-menu offset-y >
+          <template v-slot:activator="{ on }">
+            <v-btn
+              color="secondary"
+              dark
+              v-on="on" 
+            >
+            Account
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>
+                Settings
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title>Sign Out</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-container>
+      <!-- <v-btn v-show="loginInfo !== null" @click="handleSignOut">
         <span class="mr-2">Sign Out</span>
-      </v-btn>
+      </v-btn> -->
     </v-app-bar>
 
     <v-content>
@@ -47,7 +56,7 @@ export default {
   },
 
   data: () => ({
-    loginInfo: null
+    loginInfo: null,
   }),
   mounted() {
     AppAuth.onAuthStateChanged((user) => {
