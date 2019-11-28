@@ -8,9 +8,35 @@
       <v-spacer></v-spacer>
 
       <v-container class="dashboardBar" v-show="$route.path === '/dashboard'">
-        <v-btn color="secondary">
-          <span class="mr-2">Create Document</span>
-        </v-btn>
+        <v-dialog v-model="dialog" width="500">
+          <template v-slot:activator="{ on }">
+            <v-btn color="secondary" v-on="on">
+              <span class="mr-2">Create Document</span>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title
+              primary-title
+            >
+              Create a new Document
+            </v-card-title>
+            <v-text-field
+              label="Document Name"
+              v-model="newDocTitle"
+            ></v-text-field>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                @click="createNewDocument"
+              >
+                Create
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn color="secondary" dark v-on="on">
@@ -72,13 +98,14 @@ import { AppAuth } from './firebase-init';
 
 export default {
   name: 'App',
-  components: {},
 
   data: () => ({
-    loginInfo: null
+    loginInfo: null,
+    dialog: false,
+    newDocTitle: ''
   }),
   mounted() {
-    AppAuth.onAuthStateChanged(user => {
+    AppAuth.onAuthStateChanged((user) => {
       this.loginInfo = user;
     });
   },
@@ -88,6 +115,13 @@ export default {
         alert('Signed out');
         this.$router.back();
       });
+    },
+    createNewDocument() {
+      alert('placeholder for new doc');
+
+      // Cleanup 
+      this.dialog = false
+      this.newDocTitle = '';
     }
   }
 };
