@@ -15,9 +15,7 @@
             </v-btn>
           </template>
           <v-card>
-            <v-card-title
-              primary-title
-            >
+            <v-card-title primary-title>
               Create a new Document
             </v-card-title>
             <v-text-field
@@ -27,10 +25,7 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                text
-                @click="createNewDocument"
-              >
+              <v-btn text @click="createNewDocument">
                 Create
               </v-btn>
             </v-card-actions>
@@ -57,7 +52,7 @@
       </v-container>
 
       <v-container class="viewerBar" v-show="$route.name === 'view'">
-        <v-btn color="secondary">
+        <v-btn color="secondary" @click="editDocument">
           <span class="mr-2">Edit Document</span>
         </v-btn>
         <v-btn color="secondary">
@@ -102,13 +97,28 @@ export default {
   data: () => ({
     loginInfo: null,
     dialog: false,
-    newDocTitle: ''
+    newDocTitle: '',
+    docInstance: null
   }),
   mounted() {
-    AppAuth.onAuthStateChanged((user) => {
+    AppAuth.onAuthStateChanged(user => {
       this.loginInfo = user;
     });
   },
+  // updated() {
+  //   if (this.$route.name == 'view') {
+  //     AppDB.collection('documents')
+  //       .doc(this.$route.params.id)
+  //       .get()
+  //       .then(snapshot => {
+  //         const data = snapshot.data();
+  //         this.docInstance = { ...data, id: snapshot.id };
+  //       })
+  //       .catch(() => {
+  //         alert('error on top bar. cannot load doc');
+  //       });
+  //   }
+  // },
   methods: {
     handleSignOut() {
       AppAuth.signOut().then(() => {
@@ -117,21 +127,46 @@ export default {
       });
     },
     createNewDocument() {
-      AppDB.collection('documents').doc().set({
-        docName: this.newDocTitle,
-        owner: this.loginInfo.uid,
-        sharedWith: [],
-        body: ''
-      })
-      .then(() => {
-        alert('Document created');
-      })
-      .catch(() => {
-        alert('Failed to create new Document');
-      });
-      // Cleanup 
-      this.dialog = false
+      AppDB.collection('documents')
+        .doc()
+        .set({
+          docName: this.newDocTitle,
+          owner: this.loginInfo.uid,
+          sharedWith: [],
+          body: ''
+        })
+        .then(() => {
+          alert('Document created');
+        })
+        .catch(() => {
+          alert('Failed to create new Document');
+        });
+      // Cleanup
+      this.dialog = false;
       this.newDocTitle = '';
+    },
+    editDocument() {
+      const docId = this.$route.params.id;
+      this.$router.push({ name: 'edit', params: { id: docId } });
+    },
+    deleteDocument() {
+      const docId = this.$$route.params.id;
+      AppDB.collection
+        .doc(docId)
+        .delete()
+        .then(() => {
+          alert('Document has been successfuly deleted.');
+          this.$router.back();
+        })
+        .catch(() => {
+          alert('There was an error deleting the document.');
+        });
+    },
+    makeDocumentPublic() {
+      alert('placeholder');
+    },
+    makeDocumentPrivate() {
+      alert('placeholder');
     }
   }
 };
