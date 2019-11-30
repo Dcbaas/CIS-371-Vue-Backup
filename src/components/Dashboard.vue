@@ -3,15 +3,26 @@
     <v-container>
       <v-list>
         <v-subheader>MY DOCUMENTS</v-subheader>
-        <v-list-item v-for="(document, pos) in myDocsList" :key="pos" >
-          <v-list-item-title>{{  document.docName }}</v-list-item-title>
-            <v-btn 
-              class="editBtn" 
-              tile outlined color="success"
-              @click="handleClick(document.id)"
-            >
-              View  
-            </v-btn>
+        <v-list-item v-for="(document, pos) in myDocsList" :key="pos">
+          <v-list-item-title>{{ document.docName }}</v-list-item-title>
+          <v-btn
+            class="deleteBtn"
+            tile
+            outlined
+            color="error"
+            @click="deleteDocument(document.id)"
+          >
+            Delete
+          </v-btn>
+          <v-btn
+            class="editBtn"
+            tile
+            outlined
+            color="success"
+            @click="handleClick(document.id)"
+          >
+            Edit
+          </v-btn>
         </v-list-item>
       </v-list>
     </v-container>
@@ -31,28 +42,28 @@ export default {
     return {
       myDocsList: [],
       sharedDocsList: [],
-      userInfo: null 
-    }
+      userInfo: null
+    };
   },
   mounted() {
-    AppAuth.onAuthStateChanged((user) => {
+    AppAuth.onAuthStateChanged(user => {
       this.userInfo = user;
     });
 
-    AppDB.collection('documents').onSnapshot((querySnapshot) => {
-      this.myDocsList = []
-      querySnapshot.forEach((doc) =>{
+    AppDB.collection('documents').onSnapshot(querySnapshot => {
+      this.myDocsList = [];
+      querySnapshot.forEach(doc => {
         const data = doc.data();
-        if (data.owner == this.userInfo.uid){
-          this.myDocsList.push({...data, id: doc.id})
+        if (data.owner == this.userInfo.uid) {
+          this.myDocsList.push({ ...data, id: doc.id });
         } else if (data.sharedWith.includes(this.userInfo.uid)) {
-          this.sharedDocsList.push({...data, id: doc.id});
+          this.sharedDocsList.push({ ...data, id: doc.id });
         }
       });
       this.myDocsList = this.myDocsList.sort((o1, o2) => {
-        if (o1.docName < o2.docName){
+        if (o1.docName < o2.docName) {
           return -1;
-        } else if (o1.docName > o2.docName){
+        } else if (o1.docName > o2.docName) {
           return 1;
         }
 
@@ -62,8 +73,19 @@ export default {
   },
   methods: {
     handleClick(docId) {
-      this.$router.push({name: 'view', params: { id: docId } });
+      this.$router.push({ name: 'view', params: { id: docId } });
+    },
+    deleteDocument(docId) {
+      AppDB.collection('documents')
+        .doc(docId)
+        .delete()
+        .then(() => {
+          alert('Document has been successfuly deleted.');
+        })
+        .catch(() => {
+          alert('There was an error deleting the document.');
+        });
     }
   }
-}
+};
 </script>
