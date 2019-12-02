@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     handleClick(docId) {
-      this.$router.push({ name: 'view', params: { id: docId } });
+      this.$router.push({ name: 'edit', params: { id: docId } });
     },
     deleteDocument(docId) {
       AppDB.collection('documents')
