@@ -4,7 +4,7 @@
     <v-text-field labal="Position" v-model="position" />
     <v-container>
       <v-row>
-        <v-btn>Save Changes</v-btn>
+        <v-btn @click="saveChanges">Save Changes</v-btn>
       </v-row>
     </v-container>
   </div>
