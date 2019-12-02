@@ -29,6 +29,26 @@
     <v-container>
       <v-list>
         <v-subheader>SHARED WITH ME</v-subheader>
+        <v-list-item v-for="(document, pos) in sharedDocsList" :key="pos">
+          <v-list-item-title>{{ document.docName }}</v-list-item-title>
+          <v-card>
+            <v-card-text>
+              {{document.ownerData.name}}
+            </v-card-text>
+            <v-card-text>
+              {{document.ownerData.position}}
+            </v-card-text>
+          </v-card>
+          <v-btn
+            class="editBtn"
+            tile
+            outlined
+            color="success"
+            @click="handleClick(document.id)"
+          >
+            Edit
+          </v-btn>
+        </v-list-item>
       </v-list>
     </v-container>
   </div>
@@ -51,16 +71,43 @@ export default {
     });
 
     AppDB.collection('documents').onSnapshot(querySnapshot => {
+      const nullOwner = { name: 'Error', position: 'Could not find owner' };
       this.myDocsList = [];
+      this.sharedDocsList = [];
       querySnapshot.forEach(doc => {
         const data = doc.data();
         if (data.owner == this.userInfo.uid) {
           this.myDocsList.push({ ...data, id: doc.id });
-        } else if (data.sharedWith.includes(this.userInfo.uid)) {
-          this.sharedDocsList.push({ ...data, id: doc.id });
+        } else if (data.public === true && data.owner !== this.userInfo.uid) {
+          AppDB.collection('users')
+            .doc(data.owner)
+            .get()
+            .then(doc => {
+              this.sharedDocsList.push({
+                ...data,
+                id: doc.id,
+                ownerData: doc.data()
+              });
+            })
+            .catch(() => {
+              this.sharedDocsList.push({
+                ...data,
+                id: doc.id,
+                ownerData: nullOwner
+              });
+            });
         }
       });
       this.myDocsList = this.myDocsList.sort((o1, o2) => {
+        if (o1.docName < o2.docName) {
+          return -1;
+        } else if (o1.docName > o2.docName) {
+          return 1;
+        }
+
+        return 0;
+      });
+      this.sharedDocsList.sort((o1, o2) => {
         if (o1.docName < o2.docName) {
           return -1;
         } else if (o1.docName > o2.docName) {
