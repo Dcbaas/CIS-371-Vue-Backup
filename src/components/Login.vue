@@ -34,7 +34,7 @@ export default {
     handleSignUp() {
       AppAuth.createUserWithEmailAndPassword(this.email, this.password)
         .then(user => {
-          alert(`Created new user with ${user.uesr.uid}`);
+          alert(`Created new user with ${user.user.uid}`);
         })
         .catch(err => {
           alert(`Error ${err}`);

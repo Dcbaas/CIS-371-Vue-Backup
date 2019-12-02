@@ -29,6 +29,27 @@
     <v-container>
       <v-list>
         <v-subheader>SHARED WITH ME</v-subheader>
+        <v-list-item v-for="(document, pos) in sharedDocsList" :key=pos>
+          <v-list-item-title>{{ document.docName }}</v-list-item-title>
+          <v-btn
+            class="deleteBtn"
+            tile
+            outlined
+            color="error"
+            @click="deleteDocument(document.id)"
+          >
+            Delete
+          </v-btn>
+          <v-btn
+            class="editBtn"
+            tile
+            outlined
+            color="success"
+            @click="handleClick(document.id)"
+          >
+            Edit
+          </v-btn>
+        </v-list-item>
       </v-list>
     </v-container>
   </div>
@@ -52,15 +73,25 @@ export default {
 
     AppDB.collection('documents').onSnapshot(querySnapshot => {
       this.myDocsList = [];
+      this.sharedDocsList = [];
       querySnapshot.forEach(doc => {
         const data = doc.data();
         if (data.owner == this.userInfo.uid) {
           this.myDocsList.push({ ...data, id: doc.id });
-        } else if (data.sharedWith.includes(this.userInfo.uid)) {
+        } else if (data.public === true) {
           this.sharedDocsList.push({ ...data, id: doc.id });
         }
       });
       this.myDocsList = this.myDocsList.sort((o1, o2) => {
+        if (o1.docName < o2.docName) {
+          return -1;
+        } else if (o1.docName > o2.docName) {
+          return 1;
+        }
+
+        return 0;
+      });
+      this.sharedDocsList.sort((o1, o2) => {
         if (o1.docName < o2.docName) {
           return -1;
         } else if (o1.docName > o2.docName) {
