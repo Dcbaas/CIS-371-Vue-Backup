@@ -40,12 +40,12 @@
           </template>
           <v-list>
             <v-list-item>
-              <v-list-item-title>
+              <v-list-item-title @click="goToSettings">
                 Settings
               </v-list-item-title>
             </v-list-item>
             <v-list-item>
-              <v-list-item-title>Sign Out</v-list-item-title>
+              <v-list-item-title @click="handleSignOut">Sign Out</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -122,11 +122,8 @@ export default {
           alert('There was an error deleting the document.');
         });
     },
-    makeDocumentPublic() {
-      alert('placeholder');
-    },
-    makeDocumentPrivate() {
-      alert('placeholder');
+    goToSettings() {
+      this.$router.push({name: 'settings'});
     }
   }
 };

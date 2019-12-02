@@ -9,35 +9,69 @@
     <v-container id="btnCtn" v-show="loginState === null">
       <v-row justify="end">
         <v-btn @click="handleSignIn">Sign In</v-btn>
-        <v-btn @click="handleSignUp">Sign Up</v-btn>
+        <v-dialog v-model="createDialog" width="500">
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on">
+              Sign Up
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title primary-title>
+              Enter a name and position
+            </v-card-title>
+            <v-text-field label="Name" v-model="dialogName" />
+            <v-text-field label="Position" v-model="dialogPosition" />
+            <v-divider />
+            <v-card-actions>
+              <v-spacer />
+              <v-btn @click="handleSignUp">Create Account</v-btn>
+              <v-btn @click="cancelAction">Cancel Action</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-row>
     </v-container>
   </div>
 </template>
 <script>
-import { AppAuth } from '../firebase-init';
+import { AppAuth, AppDB } from '../firebase-init';
 export default {
   name: 'Login',
   data() {
     return {
       email: '',
       password: '',
-      loginState: null
+      loginState: null,
+      createDialog: false,
+      dialogName: '',
+      dialogPosition: ''
     };
   },
   mounted() {
-    AppAuth.onAuthStateChanged(user => {
+    AppAuth.onAuthStateChanged((user) => {
       this.loginState = user;
     });
   },
   methods: {
     handleSignUp() {
       AppAuth.createUserWithEmailAndPassword(this.email, this.password)
-        .then(user => {
-          alert(`Created new user with ${user.user.uid}`);
+        .then((user) => {
+          AppDB.collection('users')
+            .doc(user.user.uid)
+            .set({ name: this.dialogName, position: this.dialogPosition })
+            .then(() => {
+              alert('New user successfuly created');
+              this.createDialog = false;
+              this.dialogName = '';
+              this.dialogPosition = '';
+              this.$router.push({ path: '/dashboard' });
+            })
+            .catch(() => {
+              alert('Error creating DB entry');
+            });
         })
-        .catch(err => {
-          alert(`Error ${err}`);
+        .catch(() => {
+          alert(`Error in creating account`);
         });
     },
     handleSignIn() {
@@ -45,7 +79,7 @@ export default {
         .then(() => {
           this.$router.push({ path: '/dashboard' });
         })
-        .catch(err => {
+        .catch((err) => {
           alert(`Error ${err}`);
         });
     }
