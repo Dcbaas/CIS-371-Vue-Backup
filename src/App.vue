@@ -92,7 +92,7 @@ export default {
         .set({
           docName: this.newDocTitle,
           owner: this.loginInfo.uid,
-          sharedWith: [],
+          public: false,
           body: ''
         })
         .then(() => {
