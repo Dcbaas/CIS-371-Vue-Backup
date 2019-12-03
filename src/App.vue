@@ -51,8 +51,8 @@
         </v-menu>
       </v-container>
 
-      <v-btn v-show="loginInfo !== null" @click="handleSignOut">
-        <span class="mr-2">Sign Out (Functional Placeholder)</span>
+      <v-btn v-show="$route.name !== 'dashboard'" @click="handleSignOut">
+        <span class="mr-2">Sign Out</span>
       </v-btn>
     </v-app-bar>
 
@@ -79,11 +79,11 @@ export default {
       this.loginInfo = user;
     });
   },
-  methods: {
+  methods: {  
     handleSignOut() {
       AppAuth.signOut().then(() => {
         alert('Signed out');
-        this.$router.back();
+        this.$router.go(this.distanceFromLogin());
       });
     },
     createNewDocument() {
@@ -124,6 +124,16 @@ export default {
     },
     goToSettings() {
       this.$router.push({name: 'settings'});
+    },
+    distanceFromLogin() {
+      switch(this.$route.name) {
+        case 'login':
+          return 0;
+        case 'dashboard':
+          return -1;
+        default:
+          return -2;
+      }
     }
   }
 };
