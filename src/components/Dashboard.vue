@@ -82,11 +82,11 @@ export default {
           AppDB.collection('users')
             .doc(data.owner)
             .get()
-            .then(doc => {
+            .then(user => {
               this.sharedDocsList.push({
                 ...data,
                 id: doc.id,
-                ownerData: doc.data()
+                ownerData: user.data()
               });
             })
             .catch(() => {
