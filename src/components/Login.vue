@@ -1,13 +1,15 @@
 <template>
-  <div id="loginForm">
-    <v-text-field label="Email" v-model="email"></v-text-field>
-    <v-text-field
-      type="password"
-      label="Password"
-      v-model="password"
-    ></v-text-field>
+  <v-container id="loginForm">
+    <div id="textFields">
+      <v-text-field label="Email" v-model="email"></v-text-field>
+      <v-text-field
+        type="password"
+        label="Password"
+        v-model="password"
+      ></v-text-field>
+    </div>
     <v-container id="btnCtn" v-show="loginState === null">
-      <v-row justify="end">
+      <v-row justify="center">
         <v-btn @click="handleSignIn">Sign In</v-btn>
         <v-dialog v-model="createDialog" width="500">
           <template v-slot:activator="{ on }">
@@ -31,7 +33,7 @@
         </v-dialog>
       </v-row>
     </v-container>
-  </div>
+  </v-container>
 </template>
 <script>
 import { AppAuth, AppDB } from '../firebase-init';
@@ -48,14 +50,14 @@ export default {
     };
   },
   mounted() {
-    AppAuth.onAuthStateChanged((user) => {
+    AppAuth.onAuthStateChanged(user => {
       this.loginState = user;
     });
   },
   methods: {
     handleSignUp() {
       AppAuth.createUserWithEmailAndPassword(this.email, this.password)
-        .then((user) => {
+        .then(user => {
           AppDB.collection('users')
             .doc(user.user.uid)
             .set({ name: this.dialogName, position: this.dialogPosition })
@@ -79,7 +81,7 @@ export default {
         .then(() => {
           this.$router.push({ path: '/dashboard' });
         })
-        .catch((err) => {
+        .catch(err => {
           alert(`Error ${err}`);
         });
     }
@@ -89,11 +91,22 @@ export default {
 
 <style>
 #loginForm {
-  width: 50vw;
-  border: solid 0.1em black;
-  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: solid;
+  margin-top: 3vw;
+  width: 25vw; 
 }
-#btnCtn {
-  padding: 2em;
+
+#textFields{
+  margin-left: 1vw;
+  margin-right: 1vw;
+  width: 100%;
+}
+
+#btnCtn.container {
+  width: 25vw;
 }
 </style>
