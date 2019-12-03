@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-container>
-      <v-btn @click="makePublic" v-show="docInstance.public === false">Make Public</v-btn>
-      <v-btn @click="makePrivate" v-show="docInstance.public === true">Make Private</v-btn>
+      <v-btn @click="makePublic" v-show="!docInstance.public && isOwner">Make Public</v-btn>
+      <v-btn @click="makePrivate" v-show="docInstance.public && isOwner">Make Private</v-btn>
       <v-btn @click="saveDocument">Save</v-btn>
     </v-container>
     <ckeditor :editor="editor" v-model="docInstance.body"></ckeditor>
@@ -12,7 +12,7 @@
 <script>
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-vue';
-import { AppDB } from '../firebase-init';
+import { AppAuth, AppDB } from '../firebase-init';
 
 export default {
   name: 'Editor',
@@ -23,18 +23,22 @@ export default {
     return {
       editor: ClassicEditor,
       docInstance: null,
-      docId: this.$route.params.id
+      docId: this.$route.params.id,
+      isOwner: undefined
     }
   },
   mounted() {
-    AppDB.collection('documents').doc(this.docId).get()
+    AppAuth.onAuthStateChanged((user) => {
+      AppDB.collection('documents').doc(this.docId).get()
       .then((snapshot) => {
         const data = snapshot.data();
         this.docInstance = data;
+        this.isOwner = user.uid === data.owner;
       })
       .catch(() => {
         alert('Error loading data');
       });
+    })
   },
   methods: {
     makePublic() {
