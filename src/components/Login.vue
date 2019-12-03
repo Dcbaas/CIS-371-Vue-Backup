@@ -21,13 +21,13 @@
             <v-card-title primary-title>
               Enter a name and position
             </v-card-title>
-            <v-text-field label="Name" v-model="dialogName" />
-            <v-text-field label="Position" v-model="dialogPosition" />
+            <v-text-field class="dialogText" label="Name" v-model="dialogName" />
+            <v-text-field class="dialogText" label="Position" v-model="dialogPosition" />
             <v-divider />
             <v-card-actions>
               <v-spacer />
-              <v-btn @click="handleSignUp">Create Account</v-btn>
-              <v-btn @click="cancelAction">Cancel Action</v-btn>
+              <v-btn class="dialogBtn" @click="handleSignUp">Create Account</v-btn>
+              <v-btn class="dialogBtn" @click="cancelAction">Cancel Action</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -109,4 +109,10 @@ export default {
 #btnCtn.container {
   width: 25vw;
 }
+
+.dialogText {
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
 </style>
