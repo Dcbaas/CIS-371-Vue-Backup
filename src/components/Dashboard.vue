@@ -31,14 +31,10 @@
         <v-subheader>SHARED WITH ME</v-subheader>
         <v-list-item v-for="(document, pos) in sharedDocsList" :key="pos">
           <v-list-item-title>{{ document.docName }}</v-list-item-title>
-          <v-card>
-            <v-card-text>
-              {{document.ownerData.name}}
-            </v-card-text>
-            <v-card-text>
-              {{document.ownerData.position}}
-            </v-card-text>
-          </v-card>
+          <div class="listItemSpan">
+            <span>Owner: {{document.ownerData.name}}</span>
+            <span>Position: {{document.ownerData.position}}</span>
+          </div>
           <v-btn
             class="editBtn"
             tile
@@ -136,3 +132,18 @@ export default {
   }
 };
 </script>
+<style scoped>
+.listItemSpan {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.listItemSpan> span {
+ padding-left: 1vw;
+}
+
+.deleteBtn {
+  margin-left: 1vw;
+}
+</style>

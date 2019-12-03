@@ -8,7 +8,7 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const routeTable = [
-  { path: '/login', name: 'login', component: Login },
+  { path: '/', name: 'login', component: Login },
   { path: '/dashboard', name: 'dashboard', component: Dashboard },
   { path: '/edit/:id', name: 'edit', component: Editor },
   { path: '/settings', name: 'settings', component: Settings }
