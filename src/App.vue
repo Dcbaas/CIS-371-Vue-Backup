@@ -51,7 +51,7 @@
         </v-menu>
       </v-container>
 
-      <v-btn v-show="$route.name !== 'dashboard'" @click="handleSignOut">
+      <v-btn v-show="$route.name !== 'dashboard' && loginInfo !== null" @click="handleSignOut">
         <span class="mr-2">Sign Out</span>
       </v-btn>
     </v-app-bar>
