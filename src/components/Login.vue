@@ -84,12 +84,19 @@ export default {
         .catch(err => {
           alert(`Error ${err}`);
         });
+    },
+    cancelAction() {
+      this.createDialog = false;
+      this.dialogName = '';
+      this.dialogPosition = '';
+      this.email = '';
+      this.password = '';
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 #loginForm {
   display: flex;
   flex-direction: column;
