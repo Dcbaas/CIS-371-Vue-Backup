@@ -14,5 +14,5 @@ const routeTable = [
   { path: '/settings', name: 'settings', component: Settings }
 ];
 
-const AppRouter = new VueRouter({ routes: routeTable, mode: 'history' });
+const AppRouter = new VueRouter({ routes: routeTable, mode: 'history', base: process.env.NODE_ENV === 'production' ? '/' : '/' });
 export default AppRouter;
