@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="red lighten-3" dark>
       <div class="d-flex align-center">
         <h1>Blanks</h1>
       </div>
@@ -145,4 +145,5 @@ export default {
     flex-direction: row;
     justify-content: flex-end;
   }
+
 </style>
