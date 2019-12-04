@@ -31,9 +31,13 @@
         <v-subheader>SHARED WITH ME</v-subheader>
         <v-list-item v-for="(document, pos) in sharedDocsList" :key="pos">
           <v-list-item-title>{{ document.docName }}</v-list-item-title>
+          <v-subheader>OWNER</v-subheader>
           <div class="listItemSpan">
-            <span>Owner: {{document.ownerData.name}}</span>
-            <span>Position: {{document.ownerData.position}}</span>
+            <span>{{document.ownerData.name}}</span>
+          </div>
+          <v-subheader>POSITION</v-subheader>
+           <div class="listItemSpan">
+            <span>{{document.ownerData.position}}</span>
           </div>
           <v-btn
             class="editBtn"
