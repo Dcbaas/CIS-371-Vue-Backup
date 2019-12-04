@@ -1,13 +1,15 @@
 <template>
-  <div>
+  <v-container class="settings">
+    <div id="textFields">
     <v-text-field label="Name" v-model="name" />
-    <v-text-field labal="Position" v-model="position" />
+    <v-text-field label="Position" v-model="position" />
+    </div>
     <v-container>
       <v-row>
         <v-btn @click="saveChanges">Save Changes</v-btn>
       </v-row>
     </v-container>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -48,3 +50,30 @@ export default {
 
 }
 </script>
+<style scoped>
+  .settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: solid;
+    margin-top: 3vw;
+    width: 50vw; 
+  }
+
+  #textFields{
+    margin-left: 1vw;
+    margin-right: 1vw;
+    width: 100%;
+  }
+
+  #btnCtn.container {
+    width: 25vw;
+  }
+
+  .dialogText {
+    margin-left: 1vw;
+    margin-right: 1vw;
+  }
+
+</style>
