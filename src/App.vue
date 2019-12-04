@@ -51,6 +51,9 @@
         </v-menu>
       </v-container>
 
+      <v-btn v-show="$route.name !== 'dashboard' && loginInfo !== null" @click="goToDashboard">
+        <span class="mr-2">Dashboard</span>
+      </v-btn>
       <v-btn v-show="$route.name !== 'dashboard' && loginInfo !== null" @click="handleSignOut">
         <span class="mr-2">Sign Out</span>
       </v-btn>
@@ -124,6 +127,9 @@ export default {
     },
     goToSettings() {
       this.$router.push({name: 'settings'});
+    },
+    goToDashboard() {
+      this.$router.back();
     },
     distanceFromLogin() {
       switch(this.$route.name) {
