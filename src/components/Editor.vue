@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <v-container class="editBarBtns">
       <v-btn @click="makePublic" v-show="!docInstance.public && isOwner"
         >Make Public</v-btn
       >
@@ -88,3 +88,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+  .editBarBtns {
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-end;
+    margin-right: 0.3vw;
+  }
+</style>
