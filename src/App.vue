@@ -10,7 +10,7 @@
       <v-container class="dashboardBar" v-show="$route.path === '/dashboard'">
         <v-dialog v-model="dialog" width="500">
           <template v-slot:activator="{ on }">
-            <v-btn color="secondary" v-on="on">
+            <v-btn class="createBtn" color="secondary" v-on="on">
               <span class="mr-2">Create Document</span>
             </v-btn>
           </template>
@@ -34,7 +34,7 @@
 
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn color="secondary" dark v-on="on">
+            <v-btn class="acctBtn" color="secondary" dark v-on="on">
               Account
             </v-btn>
           </template>
@@ -138,3 +138,11 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .dashboardBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+</style>
